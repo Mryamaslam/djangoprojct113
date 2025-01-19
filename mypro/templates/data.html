@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data</title>
+</head>
+<body>
+<!--{{ name.3 }}-->
+<!--{{ age }}-->
+<!--{{ marks }}-->
+
+<!--{% if age > 18 %}-->
+<!--<h3>You are adult</h3>-->
+<!--{% else %}-->
+<!--<h3>You are teenager</h3>-->
+<!--{% endif %}-->
+
+<form method="post" action="{% url 'formdata' %}">
+    {% csrf_token %}
+    <label>Name</label>
+    <input type="text" placeholder="Enter Name" name="n">
+    <label>Age</label>
+    <input type="number" placeholder="Enter Age" name="a">
+    <label>Marks</label>
+    <input type="text" placeholder="Enter Marks" name="m">
+    <label>Course</label>
+    <input type="text" placeholder="Enter Course" name="c">
+
+    <input type="submit" value="Save">
+</form>
+<br>
+<br>
+<table border="5" cellspacing="5" cellpadding="5">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Marks</th>
+        <th>Adult</th>
+        <th>Course</th>
+        <th>Action</th>
+    </tr>
+    {% for std in stds %}
+    <tr>
+        <td>{{ std.pk }}</td>
+        <td>{{std.name}}</td>
+        <td>{{std.age}}</td>
+        <td>{{std.marks}}</td>
+        {% if std.age > 18 %}
+        <td>True</td>
+        {% else %}
+        <td>False</td>
+        {% endif %}
+        <td>{{ std.course }}</td>
+        <td>
+            <a href="{% url 'delete' std.pk %}" onclick="return confirm('Are you sure?')">DELETE</a> | <a href="{% url 'update' std.pk %}">UPDATE</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
